@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HTML Bricks</title>
+<style>
+:root{--bg:#f4f5f7;--panel:#fff;--ink:#1c2128;--mut:#6a737d;--line:#d8dce1;--warn-bg:#fff4d6;--warn-ink:#7a5200;--warn-line:#e0a400;--ok:#1a7f37;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--panel:#1e2329;--ink:#e6e9ed;--mut:#9aa4af;--line:#363d46;--warn-bg:#3b2f0d;--warn-ink:#f3d58a;--warn-line:#b8860b;--ok:#56d364;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171b;--panel:#1e2329;--ink:#e6e9ed;--mut:#9aa4af;--line:#363d46;--warn-bg:#3b2f0d;--warn-ink:#f3d58a;--warn-line:#b8860b;--ok:#56d364;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;overflow:auto}
+header{display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:18px;margin:0;flex:1}
+header button{font:inherit;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:10px;padding:10px}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
+.pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0;padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ok)}
+.pill.warn{color:var(--warn-ink);background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:0 8px}
+#banner{display:none;margin:8px;padding:8px 10px;border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--warn-ink);border-radius:6px;font-size:13px}
+#banner ul{margin:4px 0 4px 18px;padding:0}
+.work{flex:1;min-height:0;display:flex}
+.pal{width:150px;flex:none;overflow:auto;padding:8px;border-right:1px solid var(--line);background:var(--bg)}
+.pal h3{font-size:11px;color:var(--mut);margin:0 0 4px;text-transform:uppercase}
+.right{flex:1;min-width:0;display:flex;flex-direction:column}
+.pane.lossy #canvas{background-image:repeating-linear-gradient(135deg,transparent 0 10px,rgba(224,164,0,.1) 10px 20px)}
+.hint{margin:8px 10px 0;color:var(--mut);font-size:12px}
+#canvas{flex:1;overflow:auto;padding:8px 10px;min-height:80px}
+#text{flex:1;border:0;resize:none;padding:10px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--panel);color:var(--ink);outline:none;tab-size:2;white-space:pre}
+#preview{flex:1;border:0;background:#fff;width:100%}
+.brick{--c:hsl(var(--h,215) 62% 42%);background:var(--c);color:#fff;border-radius:10px;margin:6px 0;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.brick.locked{--c:hsl(215 14% 46%)}
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:6px 8px}
+.grab{cursor:grab;font-weight:700;user-select:none;touch-action:none}
+.lab{font-weight:700}
+.head code,.foot,.pb code{font:12px ui-monospace,Menlo,Consolas,monospace;opacity:.9}
+.f{display:inline-flex;align-items:center;gap:4px;font-size:12px}
+.f input{border:0;border-radius:5px;padding:3px 6px;font:12px system-ui;width:110px;background:#fff;color:#222}
+.x{margin-left:auto;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:6px;cursor:pointer;font-size:13px;padding:1px 7px}
+.zone{background:var(--panel);color:var(--ink);margin:0 8px;padding:2px 8px;border-radius:6px;min-height:34px}
+.zone:empty::before{content:"drop bricks here";color:var(--mut);font-size:12px;line-height:30px}
+.foot{padding:3px 10px 6px}
+.textb{background:var(--panel);color:var(--ink);border:2px solid var(--line);box-shadow:none;display:flex;align-items:center;gap:6px;padding:3px 6px}
+.textb input{flex:1;min-width:0;border:1px solid var(--line);border-radius:5px;padding:3px 6px;font:13px system-ui;background:var(--bg);color:var(--ink)}
+.textb .x{background:var(--line);color:var(--ink);margin:0}
+.pb{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;margin:4px 0;cursor:grab;font-weight:700;font-size:13px;user-select:none}
+.pb.textb{box-shadow:none}
+.ghost{opacity:.35}
+.trash{margin-top:10px;border:2px dashed var(--mut);border-radius:10px;padding:10px 4px;text-align:center;color:var(--mut);font-size:13px;min-height:24px}
+.trash .brick{display:none}
+@media(max-width:900px){main{display:flex;flex-direction:column}.pane{min-height:460px}.work{flex-direction:column}.pal{width:auto;border-right:0;border-bottom:1px solid var(--line);max-height:170px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧱 HTML Bricks</h1>
+  <button id="open" title="Opens a second tab that updates live as you build">Open page in new tab ↗</button>
+</header>
+<main>
+  <section class="pane" id="blockpane">
+    <h2>Bricks <span class="pill" id="pill">✓ matches the text</span></h2>
+    <div id="banner"></div>
+    <div class="work">
+      <div class="pal"><h3>Drag me ➜</h3><div id="pal"></div><div class="trash" id="trash">🗑 Drop here to delete</div></div>
+      <div class="right">
+        <div class="hint">Drag a brick into the page. Move bricks by their name. Or just click a brick to add it to the end of the body.</div>
+        <div id="canvas"></div>
+      </div>
+    </div>
+  </section>
+  <section class="pane">
+    <h2>Text (HTML)</h2>
+    <textarea id="text" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+  </section>
+  <section class="pane">
+    <h2>Result (live)</h2>
+    <iframe id="preview" sandbox="allow-scripts" title="Preview"></iframe>
+  </section>
+</main>
+<datalist id="styles"><option value="color: red"><option value="background: yellow"><option value="font-size: 30px"><option value="text-align: center"></datalist>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script>
+const VOID=new Set(['meta','img','br','hr']);
+const HUE={html:215,head:215,body:215,title:270,meta:215,h1:350,h2:350,p:210,a:260,button:25,img:160,ul:40,ol:40,li:40,div:195,strong:300,em:300,br:175,hr:175};
+const NAME={html:'Page',head:'Head',body:'Body',title:'Page title',meta:'Settings',h1:'Heading',h2:'Subheading',p:'Paragraph',a:'Link',button:'Button',img:'Picture',ul:'Bullet list',ol:'Numbered list',li:'List item',div:'Box',strong:'Bold',em:'Italic',br:'Line break',hr:'Divider'};
+const S=[['style','Style','color: red']];
+const FIELDS={html:[['lang','Language','en']],meta:[['charset','Charset','utf-8']],
+ a:[['href','Goes to','https://…'],...S],img:[['src','Picture','address'],['alt','Describe it','a cat'],['width','Width','100']],
+ h1:S,h2:S,p:S,button:S,li:S,div:S,strong:S,em:S};
+const PALETTE=['h1','h2','p','a','img','button','ul','ol','li','div','strong','em','br','hr','title'];
+const CAT='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%90%B1%3C/text%3E%3C/svg%3E';
+
+const state={model:[],issues:[]};
+const $=id=>document.getElementById(id);
+const h=(t,p={},...c)=>{const e=document.createElement(t);for(const k in p){if(k==='on')for(const ev in p.on)e.addEventListener(ev,p.on[ev]);else if(k==='list'||k.startsWith('data'))e.setAttribute(k.replace(/^data(?=[A-Z])/,'data-').toLowerCase(),p[k]);else if(k in e)e[k]=p[k];else e.setAttribute(k,p[k]);}c.flat().forEach(x=>e.append(x));return e;};
+const getA=(n,k)=>(n.attrs.find(a=>a.n===k)||{}).v||'';
+const setA=(n,k,v)=>{const a=n.attrs.find(a=>a.n===k);if(a)a.v=v;else n.attrs.push({n:k,v});};
+
+/* ---------- parser: text -> model, plus things bricks can't represent ---------- */
+function dedent(t){return t;}
+function parse(src){
+  const root=[],issues=new Set(),stack=[];
+  const cont=()=>{for(let i=stack.length-1;i>=0;i--)if(stack[i].node)return stack[i].node.children;return root;};
+  const text=t=>{if(t.trim())cont().push({type:'text',text:t.trim().replace(/\s+/g,' ')});};
+  const re=/<!--[\s\S]*?-->|<!doctype[^>]*>|<\/([a-zA-Z][\w-]*)\s*>|<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^'">])*)>/gi;
+  let last=0,m;
+  while((m=re.exec(src))){
+    text(src.slice(last,m.index));last=re.lastIndex;
+    const s=m[0];
+    if(s.startsWith('<!--')){issues.add('A comment (<!-- … -->) has no brick');continue;}
+    if(/^<!doctype/i.test(s)){
+      if(/^<!doctype\s+html\s*>$/i.test(s))cont().push({type:'doctype'});else issues.add('This doctype isn’t <!DOCTYPE html>');
+      continue;}
+    if(m[1]){
+      const tag=m[1].toLowerCase();let idx=-1;
+      for(let i=stack.length-1;i>=0;i--)if(stack[i].tag===tag){idx=i;break;}
+      if(idx<0){issues.add(`Stray closing tag </${tag}> with no start`);continue;}
+      for(let i=stack.length-1;i>idx;i--)issues.add(`<${stack[i].tag}> is never closed`);
+      stack.length=idx;continue;}
+    const tag=m[2].toLowerCase();
+    let a=m[3];const selfClose=/(^|[\s"'])\/\s*$/.test(a);if(selfClose)a=a.replace(/\/\s*$/,'');
+    if(!(tag in HUE)){
+      issues.add(`<${tag}> has no brick yet (the tag is hidden, its content is kept)`);
+      if(!VOID.has(tag)&&!selfClose)stack.push({tag,node:null});
+      continue;}
+    const allowed=(FIELDS[tag]||[]).map(f=>f[0]),attrs=[];
+    const ar=/([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g;let x;
+    while((x=ar.exec(a))){
+      const nm=x[1].toLowerCase();
+      if(allowed.includes(nm))attrs.push({n:nm,v:x[2]??x[3]??x[4]??''});
+      else issues.add(`“${nm}” on <${tag}> has no field (it would be lost)`);}
+    const node={type:'el',tag,attrs,children:[]};
+    cont().push(node);
+    if(VOID.has(tag)||selfClose)continue;
+    stack.push({tag,node});
+  }
+  text(src.slice(last));
+  stack.forEach(e=>{if(!VOID.has(e.tag))issues.add(`<${e.tag}> is never closed`);});
+  return{model:root,issues:[...issues]};
+}
+
+/* ---------- serializer: model -> text ---------- */
+const esc=v=>v.replace(/"/g,'&quot;');
+function ser(nodes,d=0){return nodes.map(n=>serNode(n,d)).join('\n');}
+function serNode(n,d){
+  const p='  '.repeat(d);
+  if(n.type==='doctype')return p+'<!DOCTYPE html>';
+  if(n.type==='text')return p+n.text.trim();
+  const at=n.attrs.filter(a=>a.v!=='').map(a=>` ${a.n}="${esc(a.v)}"`).join('');
+  const open=`<${n.tag}${at}>`,close=`</${n.tag}>`;
+  if(VOID.has(n.tag))return p+open;
+  if(!n.children.length)return p+open+close;
+  if(n.children.length===1&&n.children[0].type==='text')return p+open+n.children[0].text.trim()+close;
+  return p+open+'\n'+ser(n.children,d+1)+'\n'+p+close;
+}
+
+/* ---------- sync ---------- */
+let timer,popup=null;
+function updatePreview(){
+  clearTimeout(timer);
+  timer=setTimeout(()=>{
+    const html=$('text').value;
+    $('preview').srcdoc=html;
+    try{if(popup&&!popup.closed){popup.document.open();popup.document.write(html);popup.document.close();}}catch(e){}
+  },120);
+}
+function updateBanner(){
+  const bad=state.issues.length>0,b=$('banner'),pill=$('pill');
+  $('blockpane').classList.toggle('lossy',bad);
+  pill.className='pill'+(bad?' warn':'');
+  pill.textContent=bad?'⚠ text not fully shown':'✓ matches the text';
+  b.style.display=bad?'block':'none';
+  if(bad){b.innerHTML='';b.append(h('b',{},'Some of your text can’t be shown as bricks.'),
+    h('ul',{},state.issues.slice(0,6).map(i=>h('li',{},i)),state.issues.length>6?h('li',{},`…and ${state.issues.length-6} more`):[]),
+    'If you change a brick, the text is rewritten from the bricks and these parts will be ',h('b',{},'lost'),'. Keep editing in the text pane to avoid that.');}
+}
+function fromText(){
+  const r=parse($('text').value);
+  state.model=r.model;state.issues=r.issues;
+  renderBlocks();updateBanner();updatePreview();
+}
+function edit(fn,structural){
+  if(state.issues.length){
+    if(!confirm('Some of your text can’t be shown as bricks:\n\n• '+state.issues.slice(0,5).join('\n• ')+'\n\nChanging the bricks will rewrite the text and LOSE these parts. Continue?')){renderBlocks();return;}
+    state.issues=[];
+  }
+  fn();
+  $('text').value=ser(state.model);
+  if(structural)renderBlocks();
+  updateBanner();updatePreview();
+}
+
+/* ---------- bricks ---------- */
+function make(tag){
+  if(tag==='text')return{type:'text',text:'Some text'};
+  const T=s=>({type:'text',text:s}),n={type:'el',tag,attrs:[],children:[]};
+  const D={h1:'Heading',h2:'Subheading',p:'Some text',a:'Link text',button:'Click me',li:'Item',strong:'Bold text',em:'Italic text',title:'My page'};
+  if(D[tag])n.children.push(T(D[tag]));
+  if(tag==='a')setA(n,'href','#');
+  if(tag==='img'){setA(n,'src',CAT);setA(n,'alt','A cat');setA(n,'width','100');}
+  if(tag==='ul'||tag==='ol')n.children.push(make('li'));
+  return n;
+}
+const findTag=(list,tag)=>{for(const n of list){if(n.type!=='el')continue;if(n.tag===tag)return n;const r=findTag(n.children,tag);if(r)return r;}};
+function readZone(z){
+  return[...z.children].filter(c=>c.classList.contains('brick')).map(c=>{
+    let n=c._n;
+    if(!n)return make(c.dataset.tag);
+    if(n.type==='el'&&c._z)n.children=readZone(c._z);
+    return n;});
+}
+const commit=()=>setTimeout(()=>edit(()=>{state.model=readZone($('canvas'));},true));
+function canPut(zoneEl,el){
+  const z=zoneEl.dataset.z,t=el.dataset.tag;
+  if(z==='trash')return true;
+  if(z==='head')return t==='title'||t==='meta';
+  return t!=='title'&&t!=='meta'&&t!=='html'&&t!=='head'&&t!=='body';
+}
+function renderBrick(n,zones){
+  if(n.type==='doctype'){const b=h('div',{className:'brick locked'},h('div',{className:'head'},h('code',{},'<!DOCTYPE html>')));b._n=n;b.dataset.tag='doctype';return b;}
+  if(n.type==='text'){
+    const i=h('input',{value:n.text,on:{input(){edit(()=>{n.text=i.value;},false);}}});
+    const b=h('div',{className:'brick textb'},h('span',{className:'grab',title:'Drag to move'},'✎'),i,
+      h('button',{className:'x',type:'button',title:'Delete',textContent:'✕',on:{click(){b.remove();commit();}}}));
+    b._n=n;b.dataset.tag='text';return b;}
+  const locked=['html','head','body'].includes(n.tag);
+  const head=h('div',{className:'head'},
+    h('span',{className:locked?'lab':'grab',title:locked?'':'Drag to move'},(locked?'':'⠿ ')+NAME[n.tag]+' '),h('code',{},`<${n.tag}>`));
+  (FIELDS[n.tag]||[]).forEach(([k,label,ph])=>{
+    const i=h('input',{value:getA(n,k),placeholder:ph,on:{input(){edit(()=>setA(n,k,i.value),false);}}});
+    if(k==='style')i.setAttribute('list','styles');
+    head.append(h('label',{className:'f'},label,i));});
+  const b=h('div',{className:'brick'+(locked?' locked':'')},head);
+  b.style.setProperty('--h',HUE[n.tag]);
+  b._n=n;b.dataset.tag=n.tag;
+  if(!locked)head.append(h('button',{className:'x',type:'button',title:'Delete',textContent:'✕',on:{click(){b.remove();commit();}}}));
+  if(!VOID.has(n.tag)){
+    const z=h('div',{className:'zone'});z.dataset.z=n.tag;
+    n.children.forEach(c=>z.append(renderBrick(c,zones)));
+    zones.push(z);b._z=z;
+    b.append(z,h('div',{className:'foot'},`</${n.tag}>`));
+  }
+  return b;
+}
+function sortable(el,extra){
+  if(typeof Sortable==='undefined')return;
+  new Sortable(el,Object.assign({animation:150,ghostClass:'ghost',fallbackOnBody:true,swapThreshold:.65,onEnd:commit},extra));
+}
+function renderBlocks(){
+  const box=$('canvas'),y=box.scrollTop,zones=[box];
+  box.innerHTML='';box.dataset.z='root';
+  state.model.forEach(n=>box.append(renderBrick(n,zones)));
+  zones.forEach(z=>sortable(z,{group:{name:'z',put:(to,from,el)=>canPut(to.el,el)},handle:'.grab',draggable:'.brick:not(.locked)'}));
+  box.scrollTop=y;
+}
+function buildPalette(){
+  const pal=$('pal');
+  const item=(tag)=>{
+    const b=tag==='text'?h('div',{className:'brick pb textb'},'✎ Text'):h('div',{className:'brick pb'},NAME[tag],h('code',{},VOID.has(tag)?`<${tag}>`:`<${tag}>`));
+    b.dataset.tag=tag;if(HUE[tag])b.style.setProperty('--h',HUE[tag]);
+    b.addEventListener('click',()=>edit(()=>{
+      const target=tag==='title'?findTag(state.model,'head'):findTag(state.model,'body');
+      (target?target.children:state.model).push(make(tag));},true));
+    return b;};
+  ['text',...PALETTE].forEach(t=>pal.append(item(t)));
+  if(typeof Sortable==='undefined'){$('canvas').before(h('div',{className:'hint'},'⚠ The drag-and-drop library couldn’t load, so only clicking bricks works.'));return;}
+  new Sortable(pal,{group:{name:'z',pull:'clone',put:false},sort:false,animation:150,ghostClass:'ghost',fallbackOnBody:true,onEnd:commit});
+  const tr=$('trash');tr.dataset.z='trash';
+  new Sortable(tr,{group:{name:'z',put:true},sort:false,onAdd:e=>e.item.remove()});
+}
+
+/* ---------- start ---------- */
+$('open').addEventListener('click',()=>{
+  popup=window.open('','html-bricks-preview');
+  if(!popup){alert('Your browser blocked the pop-up. Please allow pop-ups for this page and try again.');return;}
+  updatePreview();
+});
+$('text').addEventListener('input',fromText);
+$('text').addEventListener('keydown',e=>{
+  if(e.key==='Tab'&&!e.shiftKey&&!e.ctrlKey&&!e.metaKey){e.preventDefault();document.execCommand('insertText',false,'  ');}
+});
+$('text').value=`<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>My first page</title>
+  </head>
+  <body>
+    <h1 style="color: royalblue">Hello, world!</h1>
+    <p>This is my first web page.</p>
+    <a href="https://example.com">Visit a website</a>
+  </body>
+</html>`;
+buildPalette();
+fromText();
+</script>
+</body>
+</html>
