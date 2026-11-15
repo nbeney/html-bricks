@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>HTML Bricks</title>
+<title>HTML Blocks</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<!-- Iconify web component + inlined Lucide collection (matches pyblocks/pywatch).
+     The iconify-icon@2.1.0 UMD build registers the <iconify-icon> custom element and
+     exposes addCollection() via customElements.get('iconify-icon'). All icons used by
+     the chrome and the GROUPS table are inlined below so they render reliably and
+     offline; no Iconify API round-trip is needed. (Req 1.2, 1.3) -->
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+<script>customElements.get('iconify-icon').addCollection({"prefix":"lucide","width":24,"height":24,"icons":{"code-xml":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m18 16l4-4l-4-4M6 8l-4 4l4 4m8.5-12l-5 16\"/>"},"share-2":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98\"/></g>"},"download":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10l5 5l5-5\"/></g>"},"rotate-ccw":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8\"/><path d=\"M3 3v5h5\"/></g>"},"rotate-cw":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/></g>"},"external-link":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15 3h6v6m-11 5L21 3m-3 10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"/>"},"chevron-right":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m9 18l6-6l-6-6\"/>"},"chevron-down":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"m6 9l6 6l6-6\"/>"},"circle-question-mark":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9 9.5a3 2.5 0 0 1 6 0c0 2-2 2-3 3.5m0 4h.01\"/></g>"},"copy":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></g>"},"square":{"body":"<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" rx=\"2\"/>"},"file-code":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5m-10 4.5L8 15l2 2.5m4-5l2 2.5l-2 2.5\"/></g>"},"layout-template":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><rect width=\"18\" height=\"7\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"9\" height=\"7\" x=\"3\" y=\"14\" rx=\"1\"/><rect width=\"5\" height=\"7\" x=\"16\" y=\"14\" rx=\"1\"/></g>"},"type":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 4v16M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2M9 20h6\"/>"},"image":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21\"/></g>"},"square-mouse-pointer":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z\"/><path d=\"M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6\"/></g>"},"table":{"body":"<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M12 3v18\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M3 9h18M3 15h18\"/></g>"},"list":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 5h.01M3 12h.01M3 19h.01M8 5h13M8 12h13M8 19h13\"/>"},"braces":{"body":"<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2a2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1m8 0h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1\"/>"}},"aliases":{"help-circle":{"parent":"circle-question-mark"}}});</script>
 <style>
 :root{--bg:#f4f5f7;--panel:#fff;--ink:#1c2128;--mut:#6a737d;--line:#d8dce1;--warn-bg:#fff4d6;--warn-ink:#7a5200;--warn-line:#e0a400;--ok:#1a7f37;
  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -12,13 +20,48 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;overflow:auto}
-header{display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
-header h1{font-size:18px;margin:0;flex:1}
+/* Dark top banner, kept dark in light and dark themes (matches pyblocks/pywatch #1f2937). */
+#menubar{flex:none;height:48px;line-height:48px;padding:0 14px;background:#1f2937;color:#fff;font-weight:800;font-size:22px;letter-spacing:.08em;white-space:nowrap;overflow:hidden}
+#menubar span{color:#ffb454}
+#menubar small{margin-left:16px;font-size:14px;font-weight:400;letter-spacing:.02em;color:#aab2c0}
+#menubar iconify-icon{font-size:26px;vertical-align:-5px;margin-left:6px}
+footer{flex:none;background:var(--panel);color:var(--mut);border-top:1px solid var(--line);font-size:12px;padding:7px 14px;text-align:center}
+footer a{color:#2a6fdb;text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(max-width:760px){#menubar small{display:none}}
+header{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
 header button{font:inherit;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+/* Icon buttons in the control bar: icon + label on one baseline (matches pywatch). */
+#share,#export,#exb{display:inline-flex;align-items:center;gap:6px}
+header iconify-icon{font-size:16px}
+/* Examples dropdown: the #exm menu is hidden until #ex gets the .open class
+   (toggled by task 8.2). The menu is fixed-positioned so it floats over the panes. */
+#ex{position:relative}
+#exm{display:none;position:fixed;z-index:30;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 14px #0003;min-width:190px;padding:4px;font-size:13px}
+#ex.open #exm{display:block}
+/* Hierarchical Examples menu (task 8.2, adapted from pywatch's .mi/.sub).
+   Each top-level .mi is a group row (name + chevron) whose nested .sub lists the
+   group's example titles; the submenu opens on hover or when the row carries .open
+   (tap/click support). Colours use the tool's theme variables. (Req 3.1, 3.3) */
+.sub{display:none;position:absolute;left:100%;top:-5px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 14px #0003;min-width:190px;padding:4px;font-size:13px}
+.mi{position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:6px 10px;border-radius:5px;cursor:pointer;white-space:nowrap}
+.mi:hover{background:var(--bg)}
+.mi iconify-icon{font-size:14px;color:var(--mut)}
+.mi:hover>.sub,.mi.open>.sub{display:block}
+/* Undo/redo controls in the BLOCKS pane header: small square icon buttons that
+   fit the compact pane header (logic wired by task 7.1). */
+.hbtn{font:inherit;padding:2px 5px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--mut);cursor:pointer;display:inline-flex;align-items:center;vertical-align:-3px}
+.hbtn iconify-icon{font-size:14px}
+.hbtn:hover{color:var(--ink)}
 main{flex:1;min-height:0;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:10px;padding:10px}
 .pane{background:var(--panel);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
 .pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0;padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .pill{text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ok)}
+/* Help control + shared tooltip (adapted from pywatch). A .help icon is a clickable
+   cursor icon in a pane header; clicking it shows the single #tip popup positioned
+   under the icon. #tip is fixed, dark and small. (Req 8.2, 12.2, 13.2) */
+.help{vertical-align:-3px;cursor:pointer;color:var(--mut)}
+#tip{display:none;position:fixed;z-index:20;max-width:280px;background:#1f2937;color:#fff;padding:8px 10px;border-radius:6px;font:400 12px/1.4 system-ui,sans-serif;text-transform:none;letter-spacing:0;box-shadow:0 3px 10px #0004}
 .pill.warn{color:var(--warn-ink);background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:0 8px}
 #banner{display:none;margin:8px;padding:8px 10px;border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--warn-ink);border-radius:6px;font-size:13px}
 #banner ul{margin:4px 0 4px 18px;padding:0}
@@ -29,7 +72,8 @@ main{flex:1;min-height:0;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:10
 .pane.lossy #canvas{background-image:repeating-linear-gradient(135deg,transparent 0 10px,rgba(224,164,0,.1) 10px 20px)}
 .hint{margin:8px 10px 0;color:var(--mut);font-size:12px}
 #canvas{flex:1;overflow:auto;padding:8px 10px;min-height:80px}
-#text{flex:1;border:0;resize:none;padding:10px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--panel);color:var(--ink);outline:none;tab-size:2;white-space:pre}
+#ed{flex:1;min-height:0}
+.CodeMirror{height:100%;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--panel);color:var(--ink)}
 #preview{flex:1;border:0;background:#fff;width:100%}
 .brick{--c:hsl(var(--h,215) 62% 42%);background:var(--c);color:#fff;border-radius:10px;margin:6px 0;box-shadow:0 2px 0 rgba(0,0,0,.25)}
 .brick.locked{--c:hsl(215 14% 46%)}
@@ -51,17 +95,62 @@ main{flex:1;min-height:0;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:10
 .ghost{opacity:.35}
 .trash{margin-top:10px;border:2px dashed var(--mut);border-radius:10px;padding:10px 4px;text-align:center;color:var(--mut);font-size:13px;min-height:24px}
 .trash .brick{display:none}
+/* ---------- Collapsible colour-coded palette (task 4.1) ----------
+   The palette shows a strip of group icon buttons, one per GROUPS entry (Req 8.3).
+   Each group button + its member blocks share a single --h hue (Req 8.4, 14.9).
+   Only the icon shows when collapsed — no text labels (Req 8.8). Clicking a group
+   expands its member list in place (Req 8.5). */
+.grp{margin:4px 0}
+.gbtn{display:flex;align-items:center;gap:6px;width:100%;border:0;border-radius:8px;cursor:pointer;
+  padding:7px 8px;font:inherit;color:#fff;background:hsl(var(--h,215) 62% 42%)}
+.gbtn iconify-icon{font-size:20px}
+.gbtn .gtwist{margin-left:auto;font-size:12px;opacity:.85;transition:transform .15s}
+.grp.open .gbtn .gtwist{transform:rotate(90deg)}
+.gmembers{display:none;padding:4px 0 2px 6px}
+.grp.open .gmembers{display:block}
+/* Palette member blocks: small draggable chips coloured by the inherited --h. */
+.pb{display:flex;align-items:center;gap:6px;padding:5px 8px;margin:3px 0;border-radius:8px;
+  cursor:grab;font-size:13px;user-select:none;color:#fff;background:hsl(var(--h,215) 62% 42%);
+  box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.pb code{font:12px ui-monospace,Menlo,Consolas,monospace;opacity:.95}
+.pb.textb{background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+/* ---------- Block start-tag rendering (task 4.2) ----------
+   Blocks render the real start tag with inline, editable attribute inputs sitting
+   inside the opening tag text, e.g. <a href="[input]"> (Req 9.3). No friendly
+   labels, no close button. */
+.tag{font:12px ui-monospace,Menlo,Consolas,monospace;display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:0}
+.tag .ai{border:0;border-radius:3px;padding:0 4px;font:12px ui-monospace,Menlo,Consolas,monospace;
+  background:#fff;color:#222;min-width:44px;width:auto}
 @media(max-width:900px){main{display:flex;flex-direction:column}.pane{min-height:460px}.work{flex-direction:column}.pal{width:auto;border-right:0;border-bottom:1px solid var(--line);max-height:170px}}
+/* ---------- Share dialog (task 9.1, adapted from pywatch) ----------
+   The modal shows the share link in a read-only #url and Copy/Close buttons. */
+dialog#dlg{border:1px solid var(--line);border-radius:10px;padding:16px;width:min(560px,92vw);background:var(--panel);color:var(--ink)}
+dialog#dlg::backdrop{background:#0006}
+dialog#dlg p{color:var(--mut);font-size:13px;margin:6px 0}
+#url{width:100%;box-sizing:border-box;padding:6px;margin:8px 0;font:12px ui-monospace,Menlo,Consolas,monospace;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+dialog#dlg div{display:flex;gap:8px}
+#cp,#cl{font:inherit;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+#cp iconify-icon{font-size:14px}
+/* ---------- RESULT header meta: favicon + title (task 9.4, Req 13.4) ----------
+   #rmeta sits in the RESULT pane header and mirrors the current page's parsed
+   <title> and favicon. The favicon <img> is hidden when there is no icon (or it
+   fails to load); the title ellipsises so a long title never breaks the header. */
+#rmeta{display:inline-flex;align-items:center;gap:5px;min-width:0;flex:1;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:600}
+#rfav{width:16px;height:16px;object-fit:contain;flex:none}
+.rtitle{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 </style>
 </head>
 <body>
+<div id="menubar"><span>HTML</span> BLOCKS <iconify-icon icon="lucide:code-xml"></iconify-icon><small>Build web pages with blocks</small></div>
 <header>
-  <h1>🧱 HTML Bricks</h1>
-  <button id="open" title="Opens a second tab that updates live as you build">Open page in new tab ↗</button>
+  <div id="ex"><button id="exb" title="Load an example"><iconify-icon icon="lucide:chevron-down"></iconify-icon> Examples</button><div id="exm"></div></div>
+  <button id="share" title="Get a shareable link"><iconify-icon icon="lucide:share-2"></iconify-icon> Share</button>
+  <button id="export" title="Download your page as an .html file"><iconify-icon icon="lucide:download"></iconify-icon> Export</button>
+  <span style="flex:1"></span>
 </header>
 <main>
   <section class="pane" id="blockpane">
-    <h2>Bricks <span class="pill" id="pill">✓ matches the text</span></h2>
+    <h2>BLOCKS <iconify-icon class="help" icon="lucide:help-circle" data-tip="Drag blocks into your page, or click a block to add it. Each coloured group holds related HTML elements."></iconify-icon> <button id="undo" class="hbtn" title="Undo (Ctrl-Z)"><iconify-icon icon="lucide:rotate-ccw"></iconify-icon></button><button id="redo" class="hbtn" title="Redo (Ctrl-Y)"><iconify-icon icon="lucide:rotate-cw"></iconify-icon></button> <span class="pill" id="pill">✓ matches the text</span></h2>
     <div id="banner"></div>
     <div class="work">
       <div class="pal"><h3>Drag me ➜</h3><div id="pal"></div><div class="trash" id="trash">🗑 Drop here to delete</div></div>
@@ -72,33 +161,157 @@ main{flex:1;min-height:0;display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:10
     </div>
   </section>
   <section class="pane">
-    <h2>Text (HTML)</h2>
-    <textarea id="text" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+    <h2>HTML <iconify-icon class="help" icon="lucide:help-circle" data-tip="This is your page's HTML code. Type here or use the blocks — they stay in sync. Ctrl-/ comments a line; Tab and Shift-Tab indent."></iconify-icon></h2>
+    <div id="ed"></div>
   </section>
   <section class="pane">
-    <h2>Result (live)</h2>
+    <h2>RESULT <iconify-icon class="help" icon="lucide:help-circle" data-tip="A live preview of your page. It updates as you edit."></iconify-icon> <span id="rmeta" title=""><img id="rfav" alt="" hidden><span id="rtitle" class="rtitle"></span></span> <button id="popout" class="hbtn" title="Open in a new tab"><iconify-icon icon="lucide:external-link"></iconify-icon></button></h2>
     <iframe id="preview" sandbox="allow-scripts" title="Preview"></iframe>
   </section>
 </main>
-<datalist id="styles"><option value="color: red"><option value="background: yellow"><option value="font-size: 30px"><option value="text-align: center"></datalist>
+<footer>© Nicolas Beney. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0 ↗</a></footer>
+<!-- Shared help tooltip: a single popup positioned under the clicked .help icon. -->
+<div id="tip"></div>
+<!-- Share dialog (task 9.1, adapted from pywatch). The Share button fills #url with
+     the self-contained share link and opens this modal; #cp copies it, #cl closes.
+     The explanatory line is kept kid-friendly: nothing is uploaded, the whole page
+     lives in the link after the #. (Req 4.1, 4.2) -->
+<dialog id="dlg"><b>Share your page</b><p>Anyone with this link gets your page. Nothing is uploaded — it's all in the link after the #.</p><input id="url" readonly><div><button id="cp"><iconify-icon icon="lucide:copy"></iconify-icon> Copy</button> <button id="cl">Close</button></div></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/comment/comment.min.js"></script>
+<!-- Examples data: defines window.HTMLB_EXAMPLES; loaded before the main script
+     so the Examples menu (task 8.2) can build itself from it (Req 3.2, 3.3). -->
+<script src="examples.js"></script>
 <script>
 const VOID=new Set(['meta','img','br','hr']);
-const HUE={html:215,head:215,body:215,title:270,meta:215,h1:350,h2:350,p:210,a:260,button:25,img:160,ul:40,ol:40,li:40,div:195,strong:300,em:300,br:175,hr:175};
-const NAME={html:'Page',head:'Head',body:'Body',title:'Page title',meta:'Settings',h1:'Heading',h2:'Subheading',p:'Paragraph',a:'Link',button:'Button',img:'Picture',ul:'Bullet list',ol:'Numbered list',li:'List item',div:'Box',strong:'Bold',em:'Italic',br:'Line break',hr:'Divider'};
-const S=[['style','Style','color: red']];
+/* ---------- palette data model: ordered GROUPS (Phase 1: a,b,c,e,f,g,h,i — no group d) ----------
+   Group  = { key, name, hue, icon, members: Member[] }
+   Member = { tag, desc?, attr? }   // attr marks the script-with-src variant */
+const GROUPS=[
+  {key:'a',name:'Page',hue:215,icon:'lucide:file-code',members:[
+    {tag:'doctype',desc:'Declares an HTML5 page'},
+    {tag:'html',desc:'The whole page'},
+    {tag:'head',desc:'Hidden page settings'},
+    {tag:'title',desc:'Name shown in the browser tab'},
+    {tag:'meta',desc:'Page setting (charset, viewport…)'},
+    {tag:'body',desc:'Everything you can see'}]},
+  {key:'b',name:'Structure',hue:195,icon:'lucide:layout-template',members:[
+    {tag:'div',desc:'A box to group things'},
+    {tag:'header',desc:'Top part of a page or section'},
+    {tag:'footer',desc:'Bottom part of a page or section'},
+    {tag:'section',desc:'A themed part of the page'},
+    {tag:'article',desc:'A self-contained piece'},
+    {tag:'br',desc:'A line break'},
+    {tag:'hr',desc:'A dividing line'}]},
+  {key:'c',name:'Text',hue:210,icon:'lucide:type',members:[
+    {tag:'h1',desc:'Biggest heading'},
+    {tag:'h2',desc:'Smaller heading'},
+    {tag:'h3',desc:'Even smaller heading'},
+    {tag:'h4',desc:'Small heading'},
+    {tag:'h5',desc:'Smaller small heading'},
+    {tag:'h6',desc:'Smallest heading'},
+    {tag:'p',desc:'A paragraph of text'},
+    {tag:'span',desc:'A little piece of text'},
+    {tag:'a',desc:'A link to another page'},
+    {tag:'strong',desc:'Bold, important text'},
+    {tag:'em',desc:'Italic, emphasised text'}]},
+  {key:'e',name:'Media',hue:160,icon:'lucide:image',members:[
+    {tag:'video',desc:'Play a video'},
+    {tag:'audio',desc:'Play a sound'},
+    {tag:'img',desc:'Show a picture'}]},
+  {key:'f',name:'Forms',hue:25,icon:'lucide:square-mouse-pointer',members:[
+    {tag:'form',desc:'A form to fill in'},
+    {tag:'input',desc:'A box to type into'},
+    {tag:'button',desc:'A button to click'},
+    {tag:'label',desc:'A label for an input'},
+    {tag:'select',desc:'A drop-down menu'},
+    {tag:'option',desc:'A choice in a menu'}]},
+  {key:'g',name:'Tables',hue:300,icon:'lucide:table',members:[
+    {tag:'table',desc:'A table of rows and cells'},
+    {tag:'tr',desc:'A row in a table'},
+    {tag:'th',desc:'A heading cell'},
+    {tag:'td',desc:'A data cell'}]},
+  {key:'h',name:'Lists',hue:40,icon:'lucide:list',members:[
+    {tag:'ul',desc:'A bullet list'},
+    {tag:'ol',desc:'A numbered list'},
+    {tag:'li',desc:'An item in a list'}]},
+  {key:'i',name:'Script',hue:275,icon:'lucide:braces',members:[
+    {tag:'script',attr:'src',desc:'Load JavaScript from a file'},
+    {tag:'script',desc:'Inline JavaScript'}]},
+];
+/* Derived once at load from GROUPS (these REPLACE the old literal HUE/NAME objects
+   and the old flat PALETTE array):
+     HUE[tag]       = group.hue     — drives the shared group colour; also gates parse()
+     NAME[tag]      = group.name    — kept only for aria/debug, NOT for display
+     TAG2GROUP[tag] = group.key
+     DESC[tag]      = member.desc   — member tooltip (fallback to a sensible default) */
+const HUE={},NAME={},TAG2GROUP={},DESC={};
+for(const g of GROUPS)for(const m of g.members){
+  HUE[m.tag]=g.hue;NAME[m.tag]=g.name;TAG2GROUP[m.tag]=g.key;
+  if(DESC[m.tag]===undefined)DESC[m.tag]=m.desc||`The <${m.tag}> element`;
+}
+/* Temporary flat list so the existing (pre-task-4.1) buildPalette keeps working.
+   Dedupe the duplicate 'script' member and drop the structural/head-only tags the
+   old flat palette never offered as click-to-add items would still work, but keep
+   the flat list to member tags (collapsible redesign is task 4.1). */
+const PALETTE=[...new Set(GROUPS.flatMap(g=>g.members.map(m=>m.tag)))];
 const FIELDS={html:[['lang','Language','en']],meta:[['charset','Charset','utf-8']],
- a:[['href','Goes to','https://…'],...S],img:[['src','Picture','address'],['alt','Describe it','a cat'],['width','Width','100']],
- h1:S,h2:S,p:S,button:S,li:S,div:S,strong:S,em:S};
-const PALETTE=['h1','h2','p','a','img','button','ul','ol','li','div','strong','em','br','hr','title'];
+ a:[['href','Goes to','https://…']],img:[['src','Picture','address'],['alt','Describe it','a cat'],['width','Width','100']],
+ script:[['src','Script file','app.js']]};
 const CAT='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%90%B1%3C/text%3E%3C/svg%3E';
 
 const state={model:[],issues:[]};
 const $=id=>document.getElementById(id);
+const cm=CodeMirror($('ed'),{mode:'htmlmixed',lineNumbers:true,indentUnit:2,tabSize:2,undoDepth:0,
+  extraKeys:{Tab:'indentMore','Shift-Tab':'indentLess','Ctrl-/':'toggleComment','Cmd-/':'toggleComment'}});
+/* ---------- CodeMirror bridge: HTML text is the single source of truth ----------
+   getSource() reads the editor; setSource() writes it programmatically.
+   setSource() no-ops when the text is unchanged and otherwise replaces the whole
+   buffer inside a single cm.operation() (one undo-able change, origin 'setValue'),
+   restoring the cursor and scroll position so programmatic rewrites from block
+   edits don't jump the view. The 'setValue' origin lets cm.on('change') ignore
+   these writes and avoid a feedback loop (Req 7.1, 7.2, 7.3, 12.3, 15.2). */
+const getSource=()=>cm.getValue();
+function setSource(t){
+  if(cm.getValue()===t)return;
+  const c=cm.getCursor(),s=cm.getScrollInfo();
+  cm.operation(()=>cm.setValue(t));
+  cm.setCursor(c);cm.scrollTo(s.left,s.top);
+}
 const h=(t,p={},...c)=>{const e=document.createElement(t);for(const k in p){if(k==='on')for(const ev in p.on)e.addEventListener(ev,p.on[ev]);else if(k==='list'||k.startsWith('data'))e.setAttribute(k.replace(/^data(?=[A-Z])/,'data-').toLowerCase(),p[k]);else if(k in e)e[k]=p[k];else e.setAttribute(k,p[k]);}c.flat().forEach(x=>e.append(x));return e;};
 const getA=(n,k)=>(n.attrs.find(a=>a.n===k)||{}).v||'';
 const setA=(n,k,v)=>{const a=n.attrs.find(a=>a.n===k);if(a)a.v=v;else n.attrs.push({n:k,v});};
+/* ---------- click-to-select: highlight a block's code in the editor ----------
+   Clicking a placed block re-serialises JUST that node, finds its first textual
+   occurrence in the source, and selects that range in CodeMirror (scrolling it
+   into view). Best-effort: identical siblings are ambiguous and the first match
+   wins; when there is no match the selection is left unchanged (Req 10.1-10.3).
+   Serialised output is canonically indented like the editor view, so the needle
+   matches the normalised text; hand-edited whitespace variants may miss. */
+function selectInEditor(node){
+  const needle=ser([node]).trim();
+  const src=getSource();
+  const idx=src.indexOf(needle);
+  if(idx<0)return;                         // no match -> leave selection unchanged
+  cm.setSelection(cm.posFromIndex(idx),cm.posFromIndex(idx+needle.length));
+  cm.scrollIntoView(cm.getCursor('from'));
+  cm.focus();
+}
+/* Wire a block element's click to selectInEditor, kept distinct from dragging
+   (Sortable drags start on the .grab handle and suppress the click after a real
+   drag). Clicks on attribute/text inputs are ignored so typing keeps working,
+   and stopPropagation lets the innermost clicked block win over its parents. */
+function onBrickClick(b,node){
+  b.addEventListener('click',e=>{
+    if(e.target.closest('input,textarea'))return;
+    e.stopPropagation();
+    selectInEditor(node);
+  });
+}
 
 /* ---------- parser: text -> model, plus things bricks can't represent ---------- */
 function dedent(t){return t;}
@@ -106,12 +319,12 @@ function parse(src){
   const root=[],issues=new Set(),stack=[];
   const cont=()=>{for(let i=stack.length-1;i>=0;i--)if(stack[i].node)return stack[i].node.children;return root;};
   const text=t=>{if(t.trim())cont().push({type:'text',text:t.trim().replace(/\s+/g,' ')});};
-  const re=/<!--[\s\S]*?-->|<!doctype[^>]*>|<\/([a-zA-Z][\w-]*)\s*>|<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^'">])*)>/gi;
+  const re=/\x3C!--[\s\S]*?--\x3E|\x3C!doctype[^>]*>|\x3C\/([a-zA-Z][\w-]*)\s*>|\x3C([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^'">])*)>/gi;
   let last=0,m;
   while((m=re.exec(src))){
     text(src.slice(last,m.index));last=re.lastIndex;
     const s=m[0];
-    if(s.startsWith('<!--')){issues.add('A comment (<!-- … -->) has no brick');continue;}
+    if(s.startsWith('\x3C!--')){issues.add('A comment (\x3C!-- … --\x3E) has no brick');continue;}
     if(/^<!doctype/i.test(s)){
       if(/^<!doctype\s+html\s*>$/i.test(s))cont().push({type:'doctype'});else issues.add('This doctype isn’t <!DOCTYPE html>');
       continue;}
@@ -158,13 +371,75 @@ function serNode(n,d){
   return p+open+'\n'+ser(n.children,d+1)+'\n'+p+close;
 }
 
+/* ---------- app-level undo/redo snapshot stack (task 7.1) ----------
+   Requirement 11 asks for ONE unified history of full HTML_Source snapshots that
+   spans both text edits and block operations. CodeMirror's own per-keystroke
+   history is disabled (undoDepth:0 above) so it never fights this stack and so it
+   can capture block drags, which it otherwise wouldn't. The stack is a linear list
+   of source strings with a cursor `i`; `pushHistory` drops any redo tail on a new
+   commit, dedupes no-op commits, and caps the depth. `restore` applies a snapshot
+   through the normal pipeline (setSource+fromText) but under `hist.lock` so the
+   resulting fromText() doesn't push the snapshot back onto the stack. (Req 11.1-11.4) */
+const hist={stack:[],i:-1,lock:false};
+function refreshUndoButtons(){
+  const u=$('undo'),r=$('redo');
+  if(u)u.disabled=hist.i<=0;
+  if(r)r.disabled=hist.i>=hist.stack.length-1;
+}
+function pushHistory(S){
+  if(hist.lock)return;                 // never stack while restoring
+  if(hist.stack[hist.i]===S)return;    // dedupe no-op commits
+  hist.stack.length=hist.i+1;          // drop redo tail
+  hist.stack.push(S);hist.i++;
+  if(hist.stack.length>200){hist.stack.shift();hist.i--;}   // cap depth
+  refreshUndoButtons();
+}
+function restore(S){
+  hist.lock=true;
+  setSource(S);fromText();             // re-derive model/preview/banner
+  hist.lock=false;refreshUndoButtons();
+}
+const undo=()=>{if(hist.i>0)restore(hist.stack[--hist.i]);};
+const redo=()=>{if(hist.i<hist.stack.length-1)restore(hist.stack[++hist.i]);};
+/* Typing (fromText) coalesces a burst of keystrokes into one snapshot via a trailing
+   debounce; the push still respects hist.lock at fire time so restore()'s fromText()
+   never schedules a push. Block ops (edit) push immediately so each is one undo step. */
+let histTimer;
+function pushHistoryDebounced(){
+  clearTimeout(histTimer);
+  histTimer=setTimeout(()=>{if(!hist.lock)pushHistory(getSource());},500);
+}
+
 /* ---------- sync ---------- */
 let timer,popup=null;
+/* RESULT-header meta (task 9.4, Req 13.4). previewMeta(S) does a READ-ONLY parse of
+   the current source with DOMParser (never touches the authoritative parse()/ser()
+   pipeline) and pulls the page <title> text and the favicon href. updateResultMeta()
+   renders them into the RESULT pane header: the favicon <img> shows only when a href
+   is present and loads, and a broken icon hides itself via onerror (no console spam).
+   When neither is present the header shows a quiet placeholder. */
+function previewMeta(S){
+  const doc=new DOMParser().parseFromString(S,'text/html');
+  const title=(doc.querySelector('title')?.textContent||'').trim();
+  const icon=doc.querySelector('link[rel~="icon" i]')?.getAttribute('href')||'';
+  return {title,icon};
+}
+function updateResultMeta(){
+  const m=previewMeta(getSource()),img=$('rfav'),t=$('rtitle'),box=$('rmeta');
+  if(!img||!t||!box)return;
+  if(m.icon){img.onerror=()=>{img.hidden=true;};img.hidden=false;img.src=m.icon;}
+  else{img.hidden=true;img.removeAttribute('src');}
+  t.textContent=m.title;
+  box.title=m.title||'Untitled page';
+  box.style.opacity=(m.title||m.icon)?'':'.6';
+}
 function updatePreview(){
   clearTimeout(timer);
   timer=setTimeout(()=>{
-    const html=$('text').value;
+    const html=getSource();
     $('preview').srcdoc=html;
+    updateResultMeta();
+    saveSourceDebounced();             // auto-save the current source (Req 6.1, 6.4)
     try{if(popup&&!popup.closed){popup.document.open();popup.document.write(html);popup.document.close();}}catch(e){}
   },120);
 }
@@ -179,9 +454,10 @@ function updateBanner(){
     'If you change a brick, the text is rewritten from the bricks and these parts will be ',h('b',{},'lost'),'. Keep editing in the text pane to avoid that.');}
 }
 function fromText(){
-  const r=parse($('text').value);
+  const r=parse(getSource());
   state.model=r.model;state.issues=r.issues;
   renderBlocks();updateBanner();updatePreview();
+  pushHistoryDebounced();              // typing: coalesce a burst into one snapshot
 }
 function edit(fn,structural){
   if(state.issues.length){
@@ -189,19 +465,24 @@ function edit(fn,structural){
     state.issues=[];
   }
   fn();
-  $('text').value=ser(state.model);
+  setSource(ser(state.model));
   if(structural)renderBlocks();
   updateBanner();updatePreview();
+  pushHistory(getSource());            // block op: one immediate undo step
 }
 
 /* ---------- bricks ---------- */
-function make(tag){
+/* make(tag,variant): build a fresh model node for a palette member. The Script
+   group offers two members that share the tag 'script'; the src-bearing variant
+   (variant==='src') gets a src attribute, the inline one gets none (Req 14.8). */
+function make(tag,variant){
   if(tag==='text')return{type:'text',text:'Some text'};
   const T=s=>({type:'text',text:s}),n={type:'el',tag,attrs:[],children:[]};
   const D={h1:'Heading',h2:'Subheading',p:'Some text',a:'Link text',button:'Click me',li:'Item',strong:'Bold text',em:'Italic text',title:'My page'};
   if(D[tag])n.children.push(T(D[tag]));
   if(tag==='a')setA(n,'href','#');
   if(tag==='img'){setA(n,'src',CAT);setA(n,'alt','A cat');setA(n,'width','100');}
+  if(tag==='script'&&variant==='src')setA(n,'src','app.js');
   if(tag==='ul'||tag==='ol')n.children.push(make('li'));
   return n;
 }
@@ -209,7 +490,7 @@ const findTag=(list,tag)=>{for(const n of list){if(n.type!=='el')continue;if(n.t
 function readZone(z){
   return[...z.children].filter(c=>c.classList.contains('brick')).map(c=>{
     let n=c._n;
-    if(!n)return make(c.dataset.tag);
+    if(!n)return make(c.dataset.tag,c.dataset.variant);
     if(n.type==='el'&&c._z)n.children=readZone(c._z);
     return n;});
 }
@@ -217,27 +498,39 @@ const commit=()=>setTimeout(()=>edit(()=>{state.model=readZone($('canvas'));},tr
 function canPut(zoneEl,el){
   const z=zoneEl.dataset.z,t=el.dataset.tag;
   if(z==='trash')return true;
+  if(t==='doctype')return z==='root';
+  if(t==='html')return z==='root';
+  if(t==='head'||t==='body')return z==='html';
+  if(t==='title'||t==='meta')return z==='head';
   if(z==='head')return t==='title'||t==='meta';
-  return t!=='title'&&t!=='meta'&&t!=='html'&&t!=='head'&&t!=='body';
+  return true;
+}
+/* Render an element's opening start tag as HTML with inline, editable attribute
+   inputs embedded inside it, e.g. <a href="[input]"> (Req 9.3). Each FIELDS[tag]
+   entry becomes ` name="<input>"` within the tag; typing wires straight to setA.
+   No friendly NAME label is shown — only the real tag text (Req 9.2, 8.8). */
+function startTag(n){
+  const t=h('code',{className:'tag'},`<${n.tag}`);
+  (FIELDS[n.tag]||[]).forEach(([k,label,ph])=>{
+    const i=h('input',{className:'ai',value:getA(n,k),placeholder:ph,title:label,size:1,
+      on:{input(){i.size=Math.max(1,i.value.length||ph.length);edit(()=>setA(n,k,i.value),false);}}});
+    i.size=Math.max(1,(getA(n,k)||ph).length);
+    t.append(` ${k}="`,i,'"');});
+  t.append('>');
+  return t;
 }
 function renderBrick(n,zones){
-  if(n.type==='doctype'){const b=h('div',{className:'brick locked'},h('div',{className:'head'},h('code',{},'<!DOCTYPE html>')));b._n=n;b.dataset.tag='doctype';return b;}
+  if(n.type==='doctype'){const b=h('div',{className:'brick locked'},h('div',{className:'head'},h('span',{className:'grab',title:'Drag to move'},'⠿'),h('code',{},'<!DOCTYPE html>')));b._n=n;b.dataset.tag='doctype';onBrickClick(b,n);return b;}
   if(n.type==='text'){
     const i=h('input',{value:n.text,on:{input(){edit(()=>{n.text=i.value;},false);}}});
-    const b=h('div',{className:'brick textb'},h('span',{className:'grab',title:'Drag to move'},'✎'),i,
-      h('button',{className:'x',type:'button',title:'Delete',textContent:'✕',on:{click(){b.remove();commit();}}}));
-    b._n=n;b.dataset.tag='text';return b;}
+    const b=h('div',{className:'brick textb'},h('span',{className:'grab',title:'Drag to move'},'⠿'),i);
+    b._n=n;b.dataset.tag='text';onBrickClick(b,n);return b;}
   const locked=['html','head','body'].includes(n.tag);
   const head=h('div',{className:'head'},
-    h('span',{className:locked?'lab':'grab',title:locked?'':'Drag to move'},(locked?'':'⠿ ')+NAME[n.tag]+' '),h('code',{},`<${n.tag}>`));
-  (FIELDS[n.tag]||[]).forEach(([k,label,ph])=>{
-    const i=h('input',{value:getA(n,k),placeholder:ph,on:{input(){edit(()=>setA(n,k,i.value),false);}}});
-    if(k==='style')i.setAttribute('list','styles');
-    head.append(h('label',{className:'f'},label,i));});
+    h('span',{className:'grab',title:'Drag to move'},'⠿'),startTag(n));
   const b=h('div',{className:'brick'+(locked?' locked':'')},head);
   b.style.setProperty('--h',HUE[n.tag]);
-  b._n=n;b.dataset.tag=n.tag;
-  if(!locked)head.append(h('button',{className:'x',type:'button',title:'Delete',textContent:'✕',on:{click(){b.remove();commit();}}}));
+  b._n=n;b.dataset.tag=n.tag;onBrickClick(b,n);
   if(!VOID.has(n.tag)){
     const z=h('div',{className:'zone'});z.dataset.z=n.tag;
     n.children.forEach(c=>z.append(renderBrick(c,zones)));
@@ -254,49 +547,236 @@ function renderBlocks(){
   const box=$('canvas'),y=box.scrollTop,zones=[box];
   box.innerHTML='';box.dataset.z='root';
   state.model.forEach(n=>box.append(renderBrick(n,zones)));
-  zones.forEach(z=>sortable(z,{group:{name:'z',put:(to,from,el)=>canPut(to.el,el)},handle:'.grab',draggable:'.brick:not(.locked)'}));
+  zones.forEach(z=>sortable(z,{group:{name:'z',put:(to,from,el)=>canPut(to.el,el)},handle:'.grab',draggable:'.brick'}));
   box.scrollTop=y;
 }
+/* ---------- palette: collapsible colour-coded group strip (task 4.1) ----------
+   The palette (#pal) is a narrow strip of group icon buttons — one per GROUPS entry
+   (Req 8.3). Collapsed, a group shows only its icon (Req 8.8); clicking it toggles
+   an in-place member list (Req 8.5). Each group button and each member block share
+   the group's hue via a single `--h` CSS variable (Req 8.4, 14.9). Group hover shows
+   the group name, member hover shows the member description, via title (Req 8.6, 8.7).
+   Members are drag-clonable into the canvas and also click-to-add. A free-text block
+   sits at the top so that capability is never lost. */
+function paletteMember(tag,variant,desc){
+  const b=h('div',{className:'brick pb'+(tag==='text'?' textb':''),title:desc||DESC[tag]||''},
+    tag==='text'?'⠿ Text':[h('code',{},`<${tag}>`)]);
+  b.dataset.tag=tag;if(variant)b.dataset.variant=variant;
+  if(HUE[tag])b.style.setProperty('--h',HUE[tag]);
+  b.addEventListener('click',()=>edit(()=>{
+    const target=tag==='title'||tag==='meta'?findTag(state.model,'head'):findTag(state.model,'body');
+    (target?target.children:state.model).push(make(tag,variant));},true));
+  return b;
+}
 function buildPalette(){
-  const pal=$('pal');
-  const item=(tag)=>{
-    const b=tag==='text'?h('div',{className:'brick pb textb'},'✎ Text'):h('div',{className:'brick pb'},NAME[tag],h('code',{},VOID.has(tag)?`<${tag}>`:`<${tag}>`));
-    b.dataset.tag=tag;if(HUE[tag])b.style.setProperty('--h',HUE[tag]);
-    b.addEventListener('click',()=>edit(()=>{
-      const target=tag==='title'?findTag(state.model,'head'):findTag(state.model,'body');
-      (target?target.children:state.model).push(make(tag));},true));
-    return b;};
-  ['text',...PALETTE].forEach(t=>pal.append(item(t)));
-  if(typeof Sortable==='undefined'){$('canvas').before(h('div',{className:'hint'},'⚠ The drag-and-drop library couldn’t load, so only clicking bricks works.'));return;}
-  new Sortable(pal,{group:{name:'z',pull:'clone',put:false},sort:false,animation:150,ghostClass:'ghost',fallbackOnBody:true,onEnd:commit});
+  const pal=$('pal');pal.innerHTML='';
+  const haveSortable=typeof Sortable!=='undefined';
+  const srcSortable=el=>{if(haveSortable)new Sortable(el,{group:{name:'z',pull:'clone',put:false},sort:false,animation:150,ghostClass:'ghost',fallbackOnBody:true,onEnd:commit});};
+  // Free-text block, kept at the top of the palette (creates {type:'text'}).
+  const textWrap=h('div',{className:'grp open'},h('div',{className:'gmembers',style:'padding-left:0'},paletteMember('text')));
+  pal.append(textWrap);srcSortable(textWrap.querySelector('.gmembers'));
+  // One collapsible group per GROUPS entry.
+  GROUPS.forEach(g=>{
+    const members=h('div',{className:'gmembers'});
+    g.members.forEach(m=>members.append(paletteMember(m.tag,m.attr,m.desc)));
+    const twist=h('span',{className:'gtwist'},'▸');
+    const btn=h('button',{className:'gbtn',type:'button',title:g.name},
+      h('iconify-icon',{icon:g.icon}),twist);
+    const grp=h('div',{className:'grp'},btn,members);
+    grp.style.setProperty('--h',g.hue);
+    btn.addEventListener('click',()=>grp.classList.toggle('open'));
+    pal.append(grp);
+    srcSortable(members);
+  });
+  if(!haveSortable){$('canvas').before(h('div',{className:'hint'},'⚠ The drag-and-drop library couldn’t load, so only clicking bricks works.'));return;}
   const tr=$('trash');tr.dataset.z='trash';
   new Sortable(tr,{group:{name:'z',put:true},sort:false,onAdd:e=>e.item.remove()});
 }
 
 /* ---------- start ---------- */
-$('open').addEventListener('click',()=>{
+/* Popout (task 9.4, Req 13.3): open a second tab/window and keep it live. The old
+   header "Open page in new tab" button is gone (Req 13.5); the RESULT-header
+   external-link control replaces it. It reuses the same `popup` variable that
+   updatePreview() already writes to on every source change, so the popped-out page
+   stays in sync. A blocked pop-up is reported with the existing alert. */
+$('popout').addEventListener('click',()=>{
   popup=window.open('','html-bricks-preview');
   if(!popup){alert('Your browser blocked the pop-up. Please allow pop-ups for this page and try again.');return;}
   updatePreview();
 });
-$('text').addEventListener('input',fromText);
-$('text').addEventListener('keydown',e=>{
-  if(e.key==='Tab'&&!e.shiftKey&&!e.ctrlKey&&!e.metaKey){e.preventDefault();document.execCommand('insertText',false,'  ');}
+/* ---------- Share codec (task 9.1, mirrors pywatch/pyblocks) ----------
+   The source is compressed with `deflate-raw` and encoded as base64url so the
+   whole page rides in location.hash — nothing is uploaded. `pipe` streams the bytes
+   through a (De)CompressionStream; b64url/unb64url convert to/from the URL-safe
+   alphabet. b64url builds the binary string in chunks (not String.fromCharCode(...u),
+   which overflows the call stack on large pages). decodeShare is defined here for
+   the boot-time load-precedence resolver (task 10.2) and is intentionally unused for
+   now. (Req 4.1, 4.2) */
+const pipe=async(data,stream)=>new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(stream)).arrayBuffer());
+const b64url=u=>{let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');};
+const unb64url=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+async function encodeShare(S){const u=await pipe(new TextEncoder().encode(S),new CompressionStream('deflate-raw'));return b64url(u);}
+async function decodeShare(hash){const u=await pipe(unb64url(hash),new DecompressionStream('deflate-raw'));return new TextDecoder().decode(u);}
+/* ---------- Persistence: IndexedDB Auto_Save_Store (task 10.1, Req 6.1, 6.4) ----------
+   A single database `htmlblocks` with one object store `Auto_Save_Store` holds the
+   latest HTML_Source under the single fixed key `current`, so each save overwrites
+   the previous value (Req 6.4). openDB()/tx() wrap the callback-based IndexedDB API
+   in promises; saveSource()/loadSaved() are best-effort — every error is swallowed so
+   persistence can NEVER break the app (a disabled/again-upgraded DB just means no save
+   and a default boot). saveSource is called through a trailing debounce from
+   updatePreview() (see below) so rapid typing coalesces into one write per ~400 ms. */
+const DB='htmlblocks',STORE='Auto_Save_Store',KEY='current';
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+function tx(db,mode,fn){return new Promise((res,rej)=>{const t=db.transaction(STORE,mode),s=t.objectStore(STORE);const rq=fn(s);t.oncomplete=()=>res(rq&&rq.result);t.onerror=()=>rej(t.error);});}
+async function saveSource(S){try{const db=await openDB();await tx(db,'readwrite',s=>s.put(S,KEY));}catch(e){}}
+async function loadSaved(){try{const db=await openDB();return await tx(db,'readonly',s=>s.get(KEY));}catch(e){return null;}}
+/* Debounced auto-save. `booted` gates saving until the boot resolver (task 10.2) has
+   set the first source, so an empty editor is never persisted over a restored value
+   before boot runs. After boot every source change (typing, block edits, undo/redo,
+   examples, share loads) flows through updatePreview() and schedules one overwrite of
+   the single key. Overwriting with the identical restored source is harmless. */
+let booted=false,saveTimer;
+function saveSourceDebounced(){
+  if(!booted)return;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveSource(getSource()),400);
+}
+/* Share button + Copy/Close dialog. Guard a browser without CompressionStream with a
+   plain alert; otherwise build the self-contained link, show the modal and preselect
+   the URL. Copy uses the async clipboard with an execCommand fallback and flips the
+   button label to "Copied!". ($ is getElementById here, not querySelector.) */
+const cpBtn=s=>$('cp').innerHTML='<iconify-icon icon="lucide:copy"></iconify-icon> '+s;
+$('share').addEventListener('click',async()=>{
+  if(typeof CompressionStream==='undefined'){alert('Sharing needs a newer browser. Please upgrade.');return;}
+  $('url').value=location.href.split('#')[0]+'#'+await encodeShare(getSource());
+  cpBtn('Copy');$('dlg').showModal();$('url').select();
 });
-$('text').value=`<!DOCTYPE html>
+$('cp').addEventListener('click',async()=>{
+  $('url').select();
+  try{await navigator.clipboard.writeText($('url').value);}catch(e){try{document.execCommand('copy');}catch(e2){}}
+  cpBtn('Copied!');
+});
+$('cl').addEventListener('click',()=>$('dlg').close());
+/* ---------- Export (task 9.3, Req 5.1, 5.2) ----------
+   Download the current source verbatim as a single self-contained page.html. A
+   temporary anchor with an object-URL is clicked then cleaned up. */
+function exportFile(){
+  const blob=new Blob([getSource()],{type:'text/html'});
+  const a=h('a',{href:URL.createObjectURL(blob),download:'page.html'});
+  document.body.append(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+}
+$('export').addEventListener('click',exportFile);
+/* Help tooltips: one document-level click handler toggles/positions the shared #tip.
+   Clicking a .help icon shows its data-tip under the icon; clicking it again, or
+   clicking anywhere else, hides the tip. ($ is getElementById, so use $('tip').)
+   (Req 8.2, 12.2, 13.2) */
+document.addEventListener('click',e=>{const hel=e.target.closest('.help'),tp=$('tip');
+  if(!hel||(tp.style.display==='block'&&tp._h===hel)){tp.style.display='none';tp._h=null;return;}
+  tp.textContent=hel.dataset.tip;tp._h=hel;tp.style.display='block';const r=hel.getBoundingClientRect();
+  tp.style.left=Math.max(8,Math.min(r.left,innerWidth-tp.offsetWidth-8))+'px';tp.style.top=(r.bottom+6)+'px';});
+cm.on('change',(_,ch)=>{if(ch.origin==='setValue')return;fromText();});
+/* Undo/redo wiring (task 7.1). The header buttons map straight to undo()/redo().
+   CodeMirror's own history is off (undoDepth:0), so a single document-level keydown
+   handler maps Ctrl/Cmd-Z -> undo and Ctrl/Cmd-Y or Ctrl/Cmd-Shift-Z -> redo. It
+   works whether or not the editor has focus and preventDefault stops CodeMirror's
+   now-inert key from doing anything. The Ctrl-/ comment toggle and plain typing are
+   untouched because only Z/Y with the primary modifier are intercepted. (Req 11.2-11.4) */
+$('undo').onclick=undo;
+$('redo').onclick=redo;
+document.addEventListener('keydown',e=>{
+  const mod=e.ctrlKey||e.metaKey;if(!mod)return;
+  const k=e.key.toLowerCase();
+  if(k==='z'&&!e.shiftKey){e.preventDefault();undo();}
+  else if(k==='y'||(k==='z'&&e.shiftKey)){e.preventDefault();redo();}
+});
+/* ---------- Examples menu (task 8.2, adapted from pywatch) ----------
+   Build a hierarchical dropdown from window.HTMLB_EXAMPLES into #exm: one top-level
+   .mi row per group (group name + chevron) whose nested .sub holds a .mi per example
+   title (Req 3.1, 3.3). Clicking #exb toggles .open on #ex and positions the fixed
+   #exm under the button; a plain document click closes it via closeEx. The #exb and
+   per-row clicks stopPropagation so they don't immediately self-close through the
+   document handler, which is distinct from the existing .help-tip and brick-click
+   handlers (those match their own targets / stop propagation). ($ is getElementById.)
+   Selecting an example replaces the source and records one undo step (Req 3.4).
+   Guarded so a missing/empty HTMLB_EXAMPLES leaves the button inert and throws
+   nothing. */
+const exm=$('exm');
+const closeEx=()=>{$('ex').classList.remove('open');exm.querySelectorAll('.mi.open').forEach(m=>m.classList.remove('open'));};
+function loadExample(x){
+  setSource(x.code.replace(/^\n/,''));   // trim a leading newline like pywatch
+  fromText();                            // re-derive model/preview/banner
+  pushHistory(getSource());              // loading an example is one undo step
+  closeEx();cm.focus();
+}
+function buildExamples(){
+  const data=window.HTMLB_EXAMPLES;
+  if(!data||typeof data!=='object'||!Object.keys(data).length)return;  // inert button
+  for(const [g,list] of Object.entries(data)){
+    if(!Array.isArray(list)||!list.length)continue;
+    const mi=h('div',{className:'mi'},h('span',{},g),h('iconify-icon',{icon:'lucide:chevron-right'}));
+    const sub=h('div',{className:'sub'});
+    list.forEach(x=>sub.append(h('div',{className:'mi',on:{click(e){e.stopPropagation();loadExample(x);}}},x.title)));
+    mi.append(sub);
+    mi.addEventListener('click',e=>{e.stopPropagation();mi.classList.toggle('open');});
+    exm.append(mi);
+  }
+  $('exb').addEventListener('click',e=>{
+    e.stopPropagation();
+    if($('ex').classList.toggle('open')){
+      const r=$('exb').getBoundingClientRect();
+      exm.style.left=r.left+'px';exm.style.top=(r.bottom+4)+'px';
+    }else closeEx();
+  });
+  document.addEventListener('click',closeEx);
+}
+/* ---------- Default starter page (task 10.2) ----------
+   The fallback document used when neither a share hash nor a usable saved value is
+   available (Req 6.3). This is the exact starter template that was previously inlined
+   at boot. */
+const DEFAULT_HTML=`<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>My first page</title>
   </head>
   <body>
-    <h1 style="color: royalblue">Hello, world!</h1>
+    <h1>Hello, world!</h1>
     <p>This is my first web page.</p>
     <a href="https://example.com">Visit a website</a>
   </body>
 </html>`;
+/* ---------- Boot: load-precedence resolver (task 10.2, Req 4.3, 4.4, 6.2, 6.3) ----------
+   Precedence for the initial source:
+     1. A share hash in location.hash that decodeShare() handles → the decoded source
+        (hash beats the stored value — Req 4.3, 4.4).
+     2. Otherwise the Auto_Save_Store value, but only when it is a string that parse()
+        handles without throwing (Req 6.2).
+     3. Otherwise DEFAULT_HTML (Req 6.3).
+   decodeShare and parse are each wrapped in try/catch so a corrupt/garbage hash or a
+   corrupt/non-string stored value never throws — any failure falls through to the next
+   source, ultimately DEFAULT_HTML, so startup always yields a usable document
+   (Properties 4 and 5). buildExamples()/buildPalette() build the UI up front; they do
+   not depend on the source. After the source is chosen we set it once, derive the model
+   via fromText(), seed history, and flip `booted` so auto-save begins — the first save
+   may overwrite the restored value with the identical source, which is harmless, and
+   every later edit auto-saves normally (so a share-loaded page auto-saves over the store
+   on the next change, Req 4.4). */
+buildExamples();
 buildPalette();
-fromText();
+(async()=>{
+  let S;
+  const hash=location.hash.slice(1);
+  if(hash){try{S=await decodeShare(hash);}catch(e){S=undefined;}}
+  if(S===undefined){
+    const saved=await loadSaved();
+    if(typeof saved==='string'){try{parse(saved);S=saved;}catch(e){}}
+  }
+  if(S===undefined)S=DEFAULT_HTML;
+  setSource(S);
+  fromText();                          // re-derive model/preview/banner
+  pushHistory(getSource());            // seed history with the initial snapshot
+  booted=true;                         // enable auto-save now the first source is set
+})();
 </script>
 </body>
 </html>
